@@ -1,16 +1,21 @@
-FROM node:20-slim AS build
+FROM rust:1.82-slim AS build
 WORKDIR /app
-COPY package.json tsconfig.json ./
-RUN npm install --omit=optional
+
+# Pre-cache deps
+COPY Cargo.toml ./
+RUN mkdir src && echo "fn main() {}" > src/main.rs && \
+    cargo build --release && \
+    rm -rf src target/release/deps/avisafe_djilog_parser*
+
 COPY src ./src
-RUN npx tsc
+RUN cargo build --release
 
-FROM node:20-slim AS runtime
+FROM debian:bookworm-slim AS runtime
 WORKDIR /app
-ENV NODE_ENV=production
-COPY package.json ./
-RUN npm install --omit=dev --omit=optional && npm cache clean --force
-COPY --from=build /app/dist ./dist
-
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates && \
+    rm -rf /var/lib/apt/lists/*
+COPY --from=build /app/target/release/avisafe-djilog-parser /usr/local/bin/avisafe-djilog-parser
+ENV RUST_LOG=info
 EXPOSE 8080
-CMD ["node", "dist/server.js"]
+CMD ["/usr/local/bin/avisafe-djilog-parser"]
