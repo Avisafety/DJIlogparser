@@ -1,4 +1,4 @@
-FROM rust:1.82-slim AS build
+FROM rust:1.84-slim AS build
 WORKDIR /app
 
 # Pre-cache deps
