@@ -1,0 +1,21 @@
+[package]
+name = "avisafe-djilog-parser"
+version = "0.2.0"
+edition = "2021"
+
+[dependencies]
+dji-log-parser = "0.5"
+axum = { version = "0.7", features = ["multipart"] }
+tokio = { version = "1", features = ["macros", "rt-multi-thread", "signal"] }
+tower-http = { version = "0.5", features = ["limit", "trace"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "json"] }
+zip = { version = "0.6", default-features = false, features = ["deflate"] }
+
+[profile.release]
+lto = "thin"
+codegen-units = 1
+strip = true
+opt-level = 3
