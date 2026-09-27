@@ -1,4 +1,4 @@
-app = "avisafe-djilog-parser"
+app = "djilogparser"
 primary_region = "ams"
 
 [build]
