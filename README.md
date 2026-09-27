@@ -34,8 +34,8 @@ For nyere DJI-firmware (logversjon ≥ 13) er records kryptert. Parseren må
 hente per-fil keychains fra DJI sin offisielle API. Sett:
 
 ```
-fly secrets set DJI_API_KEY=<din-api-nøkkel> --app avisafe-djilog-parser
-fly secrets set AVISAFE_PARSER_TOKEN=<random-streng> --app avisafe-djilog-parser
+fly secrets set DJI_API_KEY=<din-api-nøkkel> --app djilogparser
+fly secrets set AVISAFE_PARSER_TOKEN=<random-streng> --app djilogparser
 ```
 
 API-nøkkel skaffes fra https://developer.dji.com/.
@@ -45,8 +45,8 @@ For eldre logger (v < 13) trengs ikke `DJI_API_KEY`.
 ## Deploy
 
 ```
-cd dji-parser
-fly deploy --app avisafe-djilog-parser
+cd DJIlogparser
+fly deploy --app djilogparser
 ```
 
 ## Feilkoder
@@ -78,7 +78,7 @@ Fly.io-app som parser DJI-flylogger (.txt og .zip) og returnerer JSON i samme fo
 ## Deploy
 
 ```
-fly deploy --app avisafe-djilog-parser
+fly deploy --app djilogparser
 ```
 
 Sett secrets:
